@@ -2,23 +2,21 @@ package com.example.whatsappextender;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class MainActivity extends AppCompatActivity {
     EditText msgEditText, phoneNoEditText;
     Button sendButton;
-    String uri = "com.whatsapp";
+    String whatsappUri = "https://api.whatsapp.com/send?phone=";
     String number = "";
 
     @Override
@@ -33,55 +31,35 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please enter number", Toast.LENGTH_SHORT).show();
         }
+// Taking reference of Edit Text
+        final EditText messageEditText = findViewById(R.id.phoneNoEditText);
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        // Taking reference to button
+        Button submit = findViewById(R.id.sendButton);
+
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openWhatsapp();
+            public void onClick(View view) {
+                String number = phoneNoEditText.getText().toString();
+                String message= msgEditText.getText().toString();
+                try {
+                    sendData(number,message);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         });
+    }
+
+    private void sendData(String number,String message) throws UnsupportedEncodingException {
+        String url = whatsappUri+ number;
+        String messageUrl = "https://api.whatsapp.com/send?phone="+ number +"&text=" + URLEncoder.encode(message, "UTF-8");
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        i.setData(Uri.parse(messageUrl));
+        startActivity(i);
 
     }
 
-    private void openWhatsapp() {
 
-        String uriConversation = "com.whatsapp.Conversation";
-        Intent sendIntent;
-      //  boolean isWhatsappInstalled = whatsappInstalledOrNot(uri);
-
-
-       // if (isWhatsappInstalled==true) {
-            sendIntent = new Intent("android.intent.action.VIEW",Uri.parse(uri));
-            //sendIntent.setComponent(new ComponentName(uri, uriConversation));
-            //sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(number) + "@s.whatsapp.net");
-            startActivity(sendIntent);
-//        } else {
-//            Uri playStoreuri = Uri.parse("market://details?id=com.whatsapp");
-//            Intent goToMarket = new Intent(Intent.ACTION_VIEW, playStoreuri);
-//            Toast.makeText(this, "Forwarding to playstore",
-//                    Toast.LENGTH_SHORT).show();
-//            startActivity(goToMarket);
-//        }
-    }
-
-//    private boolean whatsappInstalledOrNot(String uri) {
-//        PackageInfo applicationInfo=null;
-//        PackageManager packageManager = getPackageManager();
-//        boolean appInstalled;
-//        try {
-//
-//            applicationInfo=getPackageManager().getPackageInfo(uri,0);//pkgname,int flags
-//            //Toast.makeText(this, ""+applicationInfo, Toast.LENGTH_LONG).show();
-//            Log.i("whatsappInstalledOrNot", "whatsappInstalledOrNot: "+applicationInfo);
-//            appInstalled = true;
-//
-//        } catch (PackageManager.NameNotFoundException e) {
-//            appInstalled = false;
-//            Log.i("whatsappInstalledOrNot", "whatsappInstalledOrNot: "+applicationInfo);
-//           // Toast.makeText(this, "Whatsapp not installed. Please install it.", Toast.LENGTH_SHORT).show();
-//        }
-//        //Log.d("whatsapp", "whatsappInstalledOrNot: "+appInstalled);
-//        Toast.makeText(this, ""+appInstalled, Toast.LENGTH_SHORT).show();
-//        return appInstalled;
-//    }
 }
