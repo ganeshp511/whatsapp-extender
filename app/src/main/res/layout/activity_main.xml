@@ -64,6 +64,7 @@
         android:layout_marginBottom="200dp"
         android:background="@drawable/button_shape"
         android:text="Send"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/phoneNoEditText"
