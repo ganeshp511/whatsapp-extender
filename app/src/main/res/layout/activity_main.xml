@@ -8,7 +8,7 @@
 
     android:background="@color/chat"
     android:gravity="center"
-    tools:context=".MainActivity">
+    tools:context="com.whatsappextender.whatsappextender.MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline9"

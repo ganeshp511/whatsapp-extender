@@ -1,4 +1,4 @@
-package com.example.whatsappextender;
+package com.whatsappextender.whatsappextender;
 
 import android.content.Context;
 

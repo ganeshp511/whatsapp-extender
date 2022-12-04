@@ -1,4 +1,4 @@
-package com.example.whatsappextender;
+package com.whatsappextender.whatsappextender;
 
 import org.junit.Test;
 
